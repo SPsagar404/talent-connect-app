@@ -1,0 +1,65 @@
+# ============================================
+# Talent Connect — Docker Compose
+# Run everything with: docker-compose up --build
+# ============================================
+
+services:
+  # ---- MySQL Database ----
+  mysql:
+    image: mysql:8.0
+    container_name: tc-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: talent_connect_2026
+      MYSQL_DATABASE: talent_connect_db
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - tc-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-ptalent_connect_2026"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  # ---- Spring Boot Backend ----
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: tc-backend
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    ports:
+      - "8080:8080"
+    volumes:
+      - resume_uploads:/app/uploads/resumes
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - tc-network
+    restart: on-failure
+
+  # ---- React Frontend (Nginx) ----
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: tc-frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+    networks:
+      - tc-network
+
+volumes:
+  mysql_data:
+  resume_uploads:
+
+networks:
+  tc-network:
+    driver: bridge
