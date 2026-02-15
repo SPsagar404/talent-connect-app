@@ -245,23 +245,23 @@ Navigate to **http://localhost:5173**
 ### HR Contacts
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| `GET` | `/api/hr?page=0&size=10` | List contacts (paginated) |
-| `GET` | `/api/hr/:id` | Get single contact |
-| `POST` | `/api/hr` | Add new contact |
-| `PUT` | `/api/hr/:id` | Update contact |
-| `DELETE` | `/api/hr/:id` | Delete contact |
-| `GET` | `/api/hr/stats` | Dashboard statistics |
+| `GET` | `/api/hr-details?page=0&size=10` | List contacts (paginated + filters) |
+| `GET` | `/api/hr-details/:id` | Get single contact |
+| `POST` | `/api/hr-details` | Add new contact |
+| `PUT` | `/api/hr-details/:id` | Update contact |
+| `DELETE` | `/api/hr-details/:id` | Delete contact |
+| `GET` | `/api/hr-details/stats` | Dashboard statistics |
 
 ### Email
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| `POST` | `/api/email/send` | Send email to selected contacts |
+| `POST` | `/api/emails/send` | Send emails to selected HR contacts |
 
 ### Resume
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | `POST` | `/api/resume/upload` | Upload resume (PDF/DOC/DOCX) |
-| `GET` | `/api/resume/info` | Get current resume info |
+| `GET` | `/api/resume` | Get current resume info |
 
 ---
 
